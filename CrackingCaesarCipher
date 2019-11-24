@@ -1,0 +1,60 @@
+# Simple Python Practice - Cracking Caesar Cipher w/ Brute Force lol
+from typing import Dict
+import matplotlib.pylab as plt
+
+ALPHABET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+# Brute Force - classic Caesar Cipher is a Symmetrical Encryption with only 26 possible keys.
+def caesar_crack_brute_force(cipher):
+    for key in range(len(ALPHABET)):
+
+        plain_text = ''
+        for c in cipher:
+            idx = ALPHABET.find(c)
+            idx = (idx - key) % len(ALPHABET)
+            plain_text += ALPHABET[idx]
+        print('with key %s, the message is: %s' % (key, plain_text))
+
+
+# limiting number of results based on frequency of vowels - b/c shifting letters by one key
+# Does not affect the distribution of letters. Use a sample bit of english to create a plot.
+# Most Frequent will almost always be white space, followed by E.
+# So based on this information you can plot the frequency and determine the key.
+def frequency_analysis(text: object) -> object:
+    text = text.upper()
+    letter_frequency: Dict[str, int] = {}
+
+    for c in ALPHABET:
+        letter_frequency[c] = 0
+
+    for c in text:
+        if c in ALPHABET:
+            letter_frequency[c] += 1
+
+    return letter_frequency
+
+
+def plot_distribution(letter_frequency):
+    centers = range(len(ALPHABET))
+    plt.bar(centers, letter_frequency.values(), align='center', tick_label=letter_frequency.keys())
+    plt.xlim({0, len(ALPHABET) - 1})
+    plt.show()
+
+
+def caesar_crack_frequency(cipher):
+
+    letter_frequency = frequency_analysis(cipher)
+    print(letter_frequency)
+    plot_distribution(letter_frequency)
+
+
+if __name__ == "__main__":
+    # plain_text = "My Name is Thomas Van De Crommenacker, I am learning Python Thanks to this bloke named Balazs
+    # Hoczer From Hungary"
+
+    plain_text = 'The frequency of letters in text has been studied for use in cryptanalysis, the ciphers breakable by this technique go back at least to the Caesar cipher'
+    encrypted = 'ET YMDLGMZLPQLOC YYQZMOWQC'
+    encrypted2 = 'ETQLRCQBFQZOJL RLXQEEQCDLUZLEQIELTMDLNQQZLDEFPUQPLR CLFDQLUZLOCJAEMZMXJDUDKLETQLOUATQCDLNCQMWMNXQLNJLETUDLEQOTZUBFQLS LNMOWLMELXQMDELE LETQLOMQDMCLOUATQC'
+    caesar_crack_frequency(encrypted2)
+
+    # caesar_crack_brute_force(encrypted)
