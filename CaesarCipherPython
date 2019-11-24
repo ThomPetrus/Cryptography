@@ -1,0 +1,34 @@
+# Simple Python Practice - Caesar Cipher
+# Encrypting white space as well
+Alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+# Pick a key
+KEY = 12
+
+
+def caesar_encrypt(plain_text):
+    cipher_text = ''
+    plain_text = plain_text.upper()
+    for char in plain_text:
+        idx = Alphabet.find(char)
+        idx = (idx + KEY) % len(Alphabet)
+        cipher_text += Alphabet[idx]
+
+    return cipher_text
+
+
+def caesar_decrypt(cipher_text):
+    plain_text = ''
+    cipher_text = cipher_text.upper()
+    for char in cipher_text:
+        idx = Alphabet.find(char)
+        idx = (idx - KEY) % len(Alphabet)
+        plain_text += Alphabet[idx]
+
+    return plain_text
+
+
+name = 'Thomas Van De Crommenacker'
+secret = caesar_encrypt(name)
+print(secret)
+print(caesar_decrypt(secret))
