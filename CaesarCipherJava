@@ -1,0 +1,33 @@
+package caesarCipher;
+public class CaesarCipher {
+	private static final String ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";	
+	public static int KEY = 12;
+	
+	public String encrypt(String plainText) {
+		String cipher = "";
+		
+		plainText = plainText.toUpperCase();
+		
+		for(int i =0; i < plainText.length(); i++) {
+			char c = plainText.charAt(i);
+			int charIdx = ALPHABET.indexOf(c);
+			int encryptIdx = Math.floorMod(charIdx + KEY, ALPHABET.length());
+			cipher += ALPHABET.charAt(encryptIdx);
+		}
+		return cipher;
+	}
+	
+	public String decrypt(String cipher) {
+		String plainText = "";
+		
+		cipher = cipher.toUpperCase();
+		
+		for(int i =0; i < cipher.length(); i++) {
+			char c = cipher.charAt(i);
+			int charIdx = ALPHABET.indexOf(c);
+			int encryptIdx = Math.floorMod(charIdx - KEY, ALPHABET.length());
+			plainText += ALPHABET.charAt(encryptIdx);
+		}
+		return plainText;
+	}
+}
