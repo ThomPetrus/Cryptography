@@ -27,6 +27,18 @@ def caesar_decrypt(cipher_text):
 
     return plain_text
 
+# Cracking Caesar Cipher with brute Force lol
+def caesar_crack(cipher):
+    for key in range(len(ALPHABET)):
+
+        plain_text = ''
+        for c in cipher:
+            idx = ALPHABET.find(c)
+            idx = (idx - key) % len(ALPHABET)
+            plain_text += ALPHABET[idx]
+        print('with key %s, the message is: %s'%(key, plain_text))
+
+
 
 name = 'Thomas Van De Crommenacker'
 secret = caesar_encrypt(name)
