@@ -1,0 +1,41 @@
+
+/*	Uses the other Java file, does not always work but just a bit of fun.
+ * 	Thanks to Holczer Balazs.
+ */
+  
+package caesarCipher;
+
+import java.util.Map;
+
+public class CaesarCipherCrack {
+	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private FrequencyAnalysis frequencyAnalysis;
+
+	public CaesarCipherCrack() {
+		this.frequencyAnalysis = new FrequencyAnalysis();
+	}
+
+	public int crack(String cipher) {
+		Map<Character, Integer> letterFqcy = frequencyAnalysis.analyze(cipher);
+		Map.Entry<Character, Integer> max = null;
+
+		// Efficiency could be better - Balanced Search tree suggested by Holczer. Maybe
+		// AVL?
+		for (Map.Entry<Character, Integer> entry : letterFqcy.entrySet()) {
+			if (max == null || entry.getValue().compareTo(max.getValue()) > 0) {
+				max = entry;
+			}
+		}
+
+		char mostFrequent = max.getKey();
+		System.out.println("Most Frequent Character is : " + mostFrequent);
+		// Since E is the most frequent character in the English language this is a safe
+		// bet.
+		int possibleKey = ALPHABET.indexOf(mostFrequent) - ALPHABET.indexOf('E');
+		System.out.println("A possible key is "+ possibleKey);
+		
+		return possibleKey;
+	
+		
+	}
+}
