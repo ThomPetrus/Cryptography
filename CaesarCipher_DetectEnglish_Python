@@ -1,5 +1,7 @@
 # Uses an external txt document with several english words to check each output of the brute force
 # crack to determine which of the 26 key is the most likely to be the correct key, works well!
+# For a more efficient implementation, an actual dictionary would be better, to jump to a word alphabetically
+# rather than just checkin all words.
 
 ALPHABET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
