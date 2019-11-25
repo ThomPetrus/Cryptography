@@ -1,0 +1,59 @@
+# Uses an external txt document with several english words to check each output of the brute force
+# crack to determine which of the 26 key is the most likely to be the correct key, works well!
+
+ALPHABET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+DICTIONARY = []
+PERCENT_MATCH = 80
+
+
+def get_data():
+    dictionary = open("dictionary2.txt")
+    for word in dictionary.read().split('\n'):
+        DICTIONARY.append(word)
+
+    dictionary.close()
+
+
+def count_words(text):
+    text = text.upper()
+    words = text.split(' ')
+    matches = 0
+
+    for word in words:
+        if word in DICTIONARY:
+            matches += 1
+
+    return matches
+
+
+def is_english(text):
+    matches = count_words(text)
+
+    if (float(matches) / len(text.split('\n'))) * 100 >= PERCENT_MATCH:
+        return True
+    else:
+        return False
+
+
+# Brute Force - classic Caesar Cipher is a Symmetrical Encryption with only 26 possible keys.
+def caesar_crack_brute_force(cipher):
+    for key in range(len(ALPHABET)):
+
+        plain_text = ''
+
+        for c in cipher:
+            idx = ALPHABET.find(c)
+            idx = (idx - key) % len(ALPHABET)
+            plain_text += ALPHABET[idx]
+
+        if is_english(plain_text):
+            print("The following key resulted in 80% match for English: ", key)
+            print('with key %s, the message is: %s' % (key, plain_text))
+
+            
+if __name__ == "__main__":
+
+    get_data()
+    encrypted = 'ETQLRCQBFQZOJL RLXQEEQCDLUZLEQIELTMDLNQQZLDEFPUQPLR CLFDQLUZLOCJAEMZMXJDUDKLETQLOUATQCDLNCQMWMNXQLNJLETUDLEQOTZUBFQLS LNMOWLMELXQMDELE LETQLOMQDMCLOUATQC'
+    caesar_crack_brute_force(encrypted)
