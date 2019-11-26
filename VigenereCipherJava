@@ -1,0 +1,46 @@
+package VigenereCipher;
+
+public class VigenereCipher {
+
+	// Practice Java - Based on Python Course Code - Implemented by me 
+	final String ALPHABET = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	public String encrypt(String plainText, String key) {
+		plainText = plainText.toUpperCase();
+		key = key.toUpperCase();
+		int keyIndex = 0;
+
+		String cipher = "";
+		for (int i = 0; i < plainText.length(); i++) {
+			int keyVal = ALPHABET.indexOf(key.charAt(keyIndex));
+			int currentCharVal = ALPHABET.indexOf(plainText.charAt(i));
+
+			cipher += ALPHABET.charAt(Math.floorMod((currentCharVal + keyVal), ALPHABET.length()));
+
+			keyIndex++;
+			if (keyIndex == key.length())
+				keyIndex = 0;
+				
+		}
+		return cipher;
+	}
+	
+	public String decrypt(String cipher, String key) {
+		cipher = cipher.toUpperCase();
+		key = key.toUpperCase();
+		int keyIndex = 0;
+		
+		String plainText = "";
+		for(int i =0; i < cipher.length();i++) {
+			int keyVal = ALPHABET.indexOf(key.charAt(keyIndex));
+			int currentCharVal = ALPHABET.indexOf(cipher.charAt(i));
+			
+			plainText+= ALPHABET.charAt(Math.floorMod((currentCharVal - keyVal), ALPHABET.length()));
+			
+			keyIndex++;
+			if(keyIndex == key.length())
+				keyIndex = 0;
+		}
+		return plainText;
+	}
+}
