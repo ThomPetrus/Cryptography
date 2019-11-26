@@ -1,0 +1,52 @@
+# Vigenere Cipher - Based on course material
+
+ALPHABET = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+
+def vigenere_encrypt(plain_text, key):
+    plain_text = plain_text.upper()
+    key = key.upper()
+
+    cipher = ''
+    key_idx = 0
+
+    # Similar to Caesar Cipher, but each letter is now shifted by the numerical value
+    # of the given key, ' ' = 0, A = 1 and so on.
+    for char in plain_text:
+        index = (ALPHABET.find(char) + ALPHABET.find(key[key_idx])) % len(ALPHABET)
+        cipher += ALPHABET[index]
+        key_idx += 1
+
+        # if key_idx reaches end of key, loop to front
+        if key_idx == len(key):
+            key_idx = 0
+
+    return cipher
+
+
+def vigenere_decrypt(cipher, key):
+    cipher = cipher.upper()
+    key = key.upper()
+
+    plain_text = ''
+    key_idx = 0
+
+    for char in cipher:
+        index = (ALPHABET.find(char) - ALPHABET.find(key[key_idx])) % len(ALPHABET)
+        plain_text += ALPHABET[index]
+        key_idx += 1
+
+        if key_idx == len(key):
+            key_idx = 0
+
+    return plain_text
+
+
+if __name__ == "__main__":
+    key = 'Super Secret'
+
+    plain_text = 'The frequency of letters in text has been studied for use in cryptanalysis, the ciphers breakable by this technique go back at least to the Caesar cipher'
+    encrypted = vigenere_encrypt(plain_text, key)
+
+    print(encrypted)
+    print(vigenere_decrypt(encrypted, key))
